@@ -5,8 +5,7 @@ from langchain.globals import set_verbose, get_verbose
 
 set_verbose(True)  # Si quieres ver logs detallados
 
-from langchain_openai import OpenAIEmbeddings
-from langchain_openai import ChatOpenAI
+from langchain_openai import AzureOpenAIEmbeddings, AzureChatOpenAI
 
 from langchain_community.vectorstores import FAISS
 from langchain_community.document_loaders import PyPDFLoader
@@ -31,6 +30,23 @@ def load_documents(path=DATA_DIR):
             docs.extend(loader.load())
     return docs
 
+def get_azure_embeddings():
+    return AzureOpenAIEmbeddings(
+        azure_deployment=os.environ["AZURE_OPENAI_EMBEDDINGS_DEPLOYMENT"],
+        azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
+        api_key=os.environ["AZURE_OPENAI_API_KEY"],
+        api_version=os.environ.get("AZURE_OPENAI_API_VERSION", "2023-05-15"),
+    )
+
+def get_azure_llm():
+    return AzureChatOpenAI(
+        azure_deployment=os.environ["AZURE_OPENAI_CHAT_DEPLOYMENT"],
+        azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
+        api_key=os.environ["AZURE_OPENAI_API_KEY"],
+        api_version=os.environ.get("AZURE_OPENAI_API_VERSION", "2023-05-15"),
+        temperature=0,
+    )
+
 def save_vectorstore(chunk_size=512, chunk_overlap=50, persist_path=VECTOR_DIR):
     docs = load_documents()
     splitter = RecursiveCharacterTextSplitter(
@@ -38,7 +54,7 @@ def save_vectorstore(chunk_size=512, chunk_overlap=50, persist_path=VECTOR_DIR):
         chunk_overlap=chunk_overlap
     )
     chunks = splitter.split_documents(docs)
-    embeddings = OpenAIEmbeddings()
+    embeddings = get_azure_embeddings()
     vectordb = FAISS.from_documents(chunks, embedding=embeddings)
     vectordb.save_local(persist_path)
 
@@ -56,11 +72,11 @@ def load_vectorstore(chunk_size=512, chunk_overlap=50):
         chunk_overlap=chunk_overlap
     )
     chunks = splitter.split_documents(docs)
-    embeddings = OpenAIEmbeddings()
+    embeddings = get_azure_embeddings()
     return FAISS.from_documents(chunks, embedding=embeddings)
 
 def load_vectorstore_from_disk(persist_path=VECTOR_DIR):
-    embeddings = OpenAIEmbeddings()
+    embeddings = get_azure_embeddings()
     return FAISS.load_local(persist_path, embeddings, allow_dangerous_deserialization=True)
 
 def load_prompt(version="v1_asistente_rrhh"):
@@ -75,7 +91,7 @@ def build_chain(vectordb, prompt_version="v1_asistente_rrhh"):
     prompt = load_prompt(prompt_version)
     retriever = vectordb.as_retriever()
     return ConversationalRetrievalChain.from_llm(
-        llm = ChatOpenAI(model="gpt-4o", temperature=0),
+        llm = get_azure_llm(),
         retriever=retriever,
         combine_docs_chain_kwargs={"prompt": prompt},
         return_source_documents=False

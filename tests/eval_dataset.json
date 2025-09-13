@@ -1,22 +1,22 @@
 [
     {
-        "question": "\u00bfQu\u00e9 cubre el plan de beneficios Northwind Health Plus?",
-        "answer": "El plan Northwind Health Plus cubre atenci\u00f3n m\u00e9dica, dental, de la vista, medicamentos recetados y servicios de salud mental."
+        "question": "¿Cuáles son las tres mecánicas de juego principales que se integrarán en el videojuego educativo en Realidad Virtual Inmersiva y qué conceptos de Física I representan?",
+        "answer": "El videojuego incluye tres mecánicas principales: 1) Dinámica newtoniana sin fricción, que permite experimentar las leyes del movimiento en un entorno sin fricción. 2) Conservación de la energía mecánica, mediante rampas y sistemas que muestran la transformación entre energía potencial y cinética. 3) Movimiento armónico simple, a través de un péndulo interactivo que permite explorar relaciones entre periodo, amplitud y aceleración."
     },
     {
-        "question": "\u00bfCu\u00e1l es el procedimiento para tomar una licencia por maternidad?",
-        "answer": "Debes notificar a Recursos Humanos al menos 30 d\u00edas antes de la fecha esperada y presentar la documentaci\u00f3n m\u00e9dica correspondiente."
+        "question": "¿Qué instrumentos estandarizados se aplicarán para evaluar la experiencia del usuario en el estudio piloto y en el RCT?",
+        "answer": "Se aplicarán cuatro instrumentos validados internacionalmente: el Immersive Experience Questionnaire (IEQ) para medir la inmersión, el Intrinsic Motivation Inventory (IMI) para la motivación intrínseca, la System Usability Scale (SUS) para la usabilidad y el NASA-TLX para la carga cognitiva."
     },
     {
-        "question": "\u00bfQu\u00e9 incluye el programa PerksPlus?",
-        "answer": "PerksPlus incluye descuentos en gimnasios, membres\u00edas de bienestar, vales de alimentos y soporte financiero."
+        "question": "¿Cuál es la hipótesis principal (H1) que guía el proyecto de investigación?",
+        "answer": "La hipótesis principal es que los estudiantes que interactúan con un videojuego educativo en RVI, diseñado bajo principios de DCU y playtesting, presentan una mayor ganancia conceptual y retención del conocimiento en temas de Física I en comparación con aquellos que reciben únicamente instrucción tradicional."
     },
     {
-        "question": "\u00bfQu\u00e9 responsabilidades tiene un analista de datos seg\u00fan el role library?",
-        "answer": "Seg\u00fan el Role Library, un analista de datos debe recolectar, limpiar y analizar datos para generar reportes estrat\u00e9gicos para el negocio."
+        "question": "¿En qué consiste el diseño metodológico de playtesting planteado en el proyecto y cuántos participantes se incluyen?",
+        "answer": "El proyecto contempla cuatro ciclos de playtesting como metodología de validación iterativa. Participan en total 20 personas: 10 estudiantes de ingeniería y 10 docentes de Física. En cada ciclo se prueban versiones del videojuego para identificar problemas de usabilidad, claridad conceptual e inmersión, y así refinar el diseño."
     },
     {
-        "question": "\u00bfCu\u00e1les son los beneficios est\u00e1ndar de Northwind?",
-        "answer": "Los beneficios est\u00e1ndar incluyen seguro m\u00e9dico b\u00e1sico, vacaciones pagadas, y plan de retiro 401(k)."
+        "question": "¿Qué diferencia habrá entre el grupo control y el grupo experimental en el Ensayo Controlado Aleatorizado (RCT)?",
+        "answer": "En el RCT, ambos grupos recibirán una clase magistral tradicional. La diferencia es que el grupo experimental, además de la clase, interactuará con el videojuego educativo en RVI. El grupo control solo tendrá la clase magistral."
     }
 ]

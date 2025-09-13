@@ -6,8 +6,8 @@ import mlflow
 from dotenv import load_dotenv
 from app.rag_pipeline import load_vectorstore_from_disk, build_chain
 
-from langchain_openai import ChatOpenAI
-from langchain.evaluation.qa import QAEvalChain
+from langchain_openai import AzureChatOpenAI
+from langchain.evaluation.qa import ContextQAEvalChain
 
 load_dotenv()
 
@@ -26,8 +26,14 @@ vectordb = load_vectorstore_from_disk()
 chain = build_chain(vectordb, prompt_version=PROMPT_VERSION)
 
 # LangChain Evaluator
-llm = ChatOpenAI(temperature=0)
-langchain_eval = QAEvalChain.from_llm(llm)
+llm = AzureChatOpenAI(
+    azure_deployment=os.environ["AZURE_OPENAI_CHAT_DEPLOYMENT"],
+    azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
+    api_key=os.environ["AZURE_OPENAI_API_KEY"],
+    api_version=os.environ.get("AZURE_OPENAI_API_VERSION", "2023-05-15"),
+    temperature=0,
+)
+langchain_eval = ContextQAEvalChain.from_llm(llm)
 
 # ✅ Establecer experimento una vez
 mlflow.set_experiment(f"eval_{PROMPT_VERSION}")
@@ -41,12 +47,14 @@ for i, pair in enumerate(dataset):
     with mlflow.start_run(run_name=f"eval_q{i+1}"):
         result = chain.invoke({"question": pregunta, "chat_history": []})
         respuesta_generada = result["answer"]
+        contexto = result.get("context", "") 
 
         # Evaluación con LangChain
         graded = langchain_eval.evaluate_strings(
             input=pregunta,
             prediction=respuesta_generada,
-            reference=respuesta_esperada
+            reference=respuesta_esperada,
+            context=contexto
         )
 
         # 🔍 Imprimir el contenido real
